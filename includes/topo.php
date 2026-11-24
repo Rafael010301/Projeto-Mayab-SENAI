@@ -5,12 +5,16 @@ declare(strict_types=1);
  * Cabeçalho HTML5 compartilhado pelas páginas internas e barra de navegação dinâmica.
  */
 require_once __DIR__ . '/conexao.php';
+<<<<<<< HEAD
 
 $usuarioLogado = !empty($_SESSION['usuario_id']);
 $usuarioAdmin  = function_exists('eh_admin')
     ? eh_admin()
     : ($usuarioLogado && ($_SESSION['perfil'] ?? '') === 'admin');
 $paginaAtual   = basename($_SERVER['SCRIPT_NAME'] ?? '');
+=======
+$ehPaginaAuth = !empty($paginaAuth);
+>>>>>>> macedo
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -18,10 +22,18 @@ $paginaAtual   = basename($_SERVER['SCRIPT_NAME'] ?? '');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= h($titulo ?? 'Mayab') ?></title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/base/global.css">
+    <link rel="stylesheet" href="assets/css/components/components.css">
+    <?php if (!empty($cssPagina)): ?>
+        <link rel="stylesheet" href="<?= h($cssPagina) ?>">
+    <?php endif; ?>
 </head>
-<body>
-<header>
+<body<?= $ehPaginaAuth ? ' class="page-auth"' : '' ?>>
+<?php if (!$ehPaginaAuth): ?>
+<header class="site-header">
     <div class="nav-container">
         <a href="index.php" class="logo">Mayab</a>
         <nav aria-label="Navegação principal">
@@ -52,4 +64,5 @@ $paginaAtual   = basename($_SERVER['SCRIPT_NAME'] ?? '');
         </nav>
     </div>
 </header>
+<?php endif; ?>
 <main>
