@@ -1,4 +1,30 @@
-includes/conexao.php
-includes/protege.php
-includes/rodape.php
-includes/topo.php
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Configurações locais de editores / IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+
+# Arquivos temporários de teste / geração de hash (mencionado no guia do SENAI)
+gera_hash.php
+teste.php
+test.php
+
+# Arquivos compactados de entrega (não subir o .zip final para o repositório)
+*.zip
+*.rar
+*.7z
+
+# Variáveis de ambiente locais (caso usem no futuro)
+.env
