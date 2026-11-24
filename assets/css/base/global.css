@@ -1,0 +1,165 @@
+/* ==========================================
+   CSS VARIABLES
+========================================== */
+:root {
+  --bg: #121212;
+  --bg-deep: #0b0e0c;
+  --surface: #1A4D34;
+  --surface-dark: #102a1d;
+  --gold: #D49934;
+  --gold-hover: #E8B65B;
+  --bronze: #8B621B;
+  --jade: #3DA66B;
+  --sand: #B5A577;
+  --turquoise: #248799;
+  --text: #F4EBD8;
+  --text-muted: #CFC3AB;
+  --error: #F08B80;
+  --font-title: "Cinzel", Georgia, serif;
+  --font-body: "Montserrat", system-ui, sans-serif;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+}
+
+/* ==========================================
+   RESET & BOX-SIZING
+========================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ==========================================
+   HTML, BODY & BASE ELEMENTS
+========================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 1rem/1.7 var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color .2s ease;
+}
+
+a:hover {
+  color: var(--gold-hover);
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* ==========================================
+   TYPOGRAPHY
+========================================== */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-title);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 .75rem;
+}
+
+h1 {
+  font-size: clamp(1.75rem, 3.6vw, 2.4rem);
+  color: var(--gold);
+}
+
+h2 {
+  font-size: clamp(1.4rem, 3vw, 1.85rem);
+  color: var(--gold);
+}
+
+h3 {
+  font-size: 1.2rem;
+  color: var(--text);
+}
+
+h4 {
+  font-size: 1.05rem;
+  color: var(--sand);
+}
+
+p {
+  margin: 0 0 1rem;
+  max-width: 62ch;
+}
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(181, 165, 119, .35);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* ==========================================
+   ACCESSIBILITY & GLOBAL RESPONSIVE MOTION
+========================================== */
+:focus-visible {
+  outline: 3px solid var(--sand);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,276 @@
+/* ==========================================
+   HERO SECTION
+========================================== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 3rem 1.25rem 4rem;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(10, 14, 12, .62) 0%,
+      rgba(10, 14, 12, .74) 68%,
+      var(--bg) 100%
+    ),
+    url("../../img/fundo_hero.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.75rem;
+  width: min(780px, 100%);
+  padding: 1.5rem 0;
+}
+
+.hero__logo {
+  width: min(700px, 100%);
+  mix-blend-mode: screen;
+}
+
+.hero__intro {
+  margin: 0 auto;
+  max-width: 56ch;
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  color: var(--text);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .85);
+}
+
+/* ==========================================
+   LANDING SECTIONS & SPACING
+========================================== */
+.landing-section {
+  padding: 4.5rem 1.25rem;
+  background: var(--bg);
+}
+
+.landing-section--alt {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(26, 77, 52, .22), transparent 45%),
+    radial-gradient(circle at 82% 80%, rgba(36, 135, 153, .16), transparent 45%),
+    var(--bg);
+}
+
+.section-head {
+  text-align: center;
+  max-width: 68ch;
+  margin: 0 auto 2.5rem;
+}
+
+.section-head p {
+  margin: 0 auto;
+  color: var(--text-muted);
+}
+
+/* ==========================================
+   ABOUT SECTION
+========================================== */
+.about-card {
+  max-width: 960px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--gold), var(--jade));
+}
+
+.about-card__text {
+  display: grid;
+  gap: 1rem;
+}
+
+.about-card__text p {
+  max-width: 72ch;
+  margin: 0;
+}
+
+/* ==========================================
+   CHARACTER CARDS
+========================================== */
+.char-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.char-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  cursor: pointer;
+}
+
+.char-card.is-selected {
+  border-color: var(--gold);
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, .55),
+    0 0 24px rgba(212, 153, 52, .22),
+    inset 0 1px 0 rgba(244, 235, 216, .3);
+}
+
+.char-card__media {
+  position: relative;
+  height: 170px;
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(212, 153, 52, .25);
+  background:
+    radial-gradient(circle at 50% 35%, rgba(36, 135, 153, .30), transparent 65%),
+    linear-gradient(160deg, rgba(11, 14, 12, .92), rgba(26, 77, 52, .65));
+}
+
+.char-card__media--explorador {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(61, 166, 107, .32), transparent 65%),
+    linear-gradient(160deg, rgba(11, 14, 12, .92), rgba(26, 77, 52, .65));
+}
+
+.char-card__media--estudante {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(36, 135, 153, .35), transparent 65%),
+    linear-gradient(160deg, rgba(11, 14, 12, .92), rgba(16, 42, 29, .75));
+}
+
+.char-card__media--arqueologo {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(212, 153, 52, .28), transparent 65%),
+    linear-gradient(160deg, rgba(11, 14, 12, .92), rgba(139, 98, 27, .38));
+}
+
+.char-card__art {
+  width: 96px;
+  height: 96px;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, .55));
+  transition: transform .3s ease;
+}
+
+.char-card:hover .char-card__art {
+  transform: scale(1.06);
+}
+
+.char-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: .75rem;
+}
+
+.char-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+.char-card__top h3 {
+  margin: 0;
+  color: var(--gold-hover);
+  font-size: 1.3rem;
+}
+
+.char-card__desc {
+  margin: 0;
+  color: var(--text);
+  font-size: .96rem;
+  flex: 1;
+}
+
+.char-card__skill {
+  margin: 0;
+  padding-top: .75rem;
+  border-top: 1px solid rgba(244, 235, 216, .14);
+  color: var(--sand);
+  font-size: .88rem;
+  font-weight: 600;
+}
+
+/* ==========================================
+   CALL TO ACTION SECTION
+========================================== */
+.call-section {
+  padding: 4.5rem 1.25rem 5.5rem;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(36, 135, 153, .22), transparent 60%),
+    var(--bg);
+}
+
+.card--call {
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.15rem;
+  box-shadow:
+    0 12px 36px rgba(0, 0, 0, .52),
+    inset 0 1px 0 rgba(244, 235, 216, .25),
+    inset 0 0 48px rgba(36, 135, 153, .22);
+}
+
+.card--call h2 {
+  margin: 0;
+}
+
+.call__quote {
+  font-family: var(--font-title);
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  color: var(--text);
+  margin: 0;
+}
+
+.call__sub {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: .95rem;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+@media (max-width: 960px) {
+  .char-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    padding: 2.5rem 1rem 3rem;
+  }
+
+  .hero__inner {
+    gap: 1.35rem;
+  }
+
+  .landing-section,
+  .call-section {
+    padding: 3rem 1rem;
+  }
+
+  .char-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .char-card__media {
+    height: 150px;
+  }
+}
