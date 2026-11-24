@@ -16,7 +16,7 @@
   <!-- SEÇÃO 01 · Hero -->
   <header class="hero" id="inicio">
     <div class="hero__inner">
-      <img class="hero__logo" src="logo.png" alt="MAYAB: O Templo Perdido, com a cabeça dourada de Kukulcán" width="1024" height="290">
+      <img class="hero__logo" src="" alt="MAYAB: O Templo Perdido, com a cabeça dourada de Kukulcán" width="1024" height="290">
       <button class="btn btn--glow" type="button" id="btn-start">Clique para começar</button>
     </div>
   </header>
