@@ -1,46 +1,69 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * Autenticação de usuários via e-mail e senha com password_verify()
+ * e regeneração do identificador de sessão.
+ */
 require_once __DIR__ . '/includes/conexao.php';
 
-// Se já estiver logado, redireciona para index
+// Redireciona se o usuário já possui sessão ativa
 if (!empty($_SESSION['usuario_id'])) {
     header('Location: index.php');
     exit;
 }
 
-$erro = '';
-$email = '';
-$sucesso = '';
+$pdo = conectar_bd();
 
-if (isset($_GET['cadastrado']) && $_GET['cadastrado'] === '1') {
-    $sucesso = 'Cadastro realizado com sucesso! Faça login para começar a jogar.';
-}
+$erro    = '';
+$email   = '';
+$sucesso = (($_GET['cadastrado'] ?? '') === '1')
+    ? 'Cadastro realizado com sucesso! Faça login para começar a jogar.'
+    : '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
-    $senha = $_POST['senha'] ?? '';
+    $email = mb_strtolower(trim((string) ($_POST['email'] ?? '')));
+    $senha = (string) ($_POST['senha'] ?? '');
 
     if ($email === '' || $senha === '') {
         $erro = 'Informe o e-mail e a senha.';
+    } elseif (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+        $erro = 'Informe um endereço de e-mail válido.';
     } else {
-        // Busca usuário por e-mail com Prepared Statement
-        $stmt = $pdo->prepare('SELECT id, nome, apelido, email, senha, perfil FROM usuarios WHERE email = ? LIMIT 1');
-        $stmt->execute([$email]);
+        // Seleciona apenas as colunas necessárias para autenticação e sessão
+        $stmt = $pdo->prepare(
+            'SELECT id, apelido, senha, perfil
+             FROM usuarios
+             WHERE email = :email
+             LIMIT 1'
+        );
+        $stmt->execute([':email' => $email]);
         $usuario = $stmt->fetch();
 
-        // Valida senha com password_verify()
-        if ($usuario && password_verify($senha, $usuario['senha'])) {
-            // Regenera ID de sessão para prevenir fixação de sessão
+        if ($usuario !== false && password_verify($senha, $usuario['senha'])) {
+            // Atualiza o hash automaticamente caso o algoritmo/custo padrão do PHP evolua
+            if (password_needs_rehash($usuario['senha'], PASSWORD_DEFAULT)) {
+                $stmtRehash = $pdo->prepare(
+                    'UPDATE usuarios SET senha = :senha WHERE id = :id'
+                );
+                $stmtRehash->execute([
+                    ':senha' => password_hash($senha, PASSWORD_DEFAULT),
+                    ':id'    => (int) $usuario['id'],
+                ]);
+            }
+
+            // Previne ataque de fixação de sessão ao autenticar
             session_regenerate_id(true);
 
-            $_SESSION['usuario_id'] = (int)$usuario['id'];
+            $_SESSION['usuario_id'] = (int) $usuario['id'];
             $_SESSION['apelido']    = $usuario['apelido'];
             $_SESSION['perfil']     = $usuario['perfil'];
 
             header('Location: index.php');
             exit;
-        } else {
-            $erro = 'E-mail ou senha incorretos.';
         }
+
+        $erro = 'E-mail ou senha incorretos.';
     }
 }
 

@@ -1,56 +1,94 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * Cadastro de novos jogadores com validação server-side,
+ * verificação de duplicidade, hash seguro de senha e login automático.
+ */
 require_once __DIR__ . '/includes/conexao.php';
 
-// Se já estiver logado, redireciona para index
+// Usuário já autenticado não precisa acessar a tela de cadastro
 if (!empty($_SESSION['usuario_id'])) {
     header('Location: index.php');
     exit;
 }
 
-$erro = '';
-$nome = '';
+$pdo = conectar_bd();
+
+$erro    = '';
+$nome    = '';
 $apelido = '';
-$email = '';
+$email   = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome = trim($_POST['nome'] ?? '');
-    $apelido = trim($_POST['apelido'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $senha = $_POST['senha'] ?? '';
+    $nome    = trim((string) ($_POST['nome'] ?? ''));
+    $apelido = trim((string) ($_POST['apelido'] ?? ''));
+    $email   = mb_strtolower(trim((string) ($_POST['email'] ?? '')));
+    $senha   = (string) ($_POST['senha'] ?? '');
 
-    // Validação de campos obrigatórios
+    // Validações obrigatórias e limites compatíveis com as colunas do banco
     if ($nome === '' || $apelido === '' || $email === '' || $senha === '') {
         $erro = 'Todos os campos são obrigatórios.';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    } elseif (mb_strlen($nome) > 100) {
+        $erro = 'O nome deve ter no máximo 100 caracteres.';
+    } elseif (mb_strlen($apelido) > 50) {
+        $erro = 'O apelido deve ter no máximo 50 caracteres.';
+    } elseif (mb_strlen($email) > 100 || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
         $erro = 'Por favor, informe um endereço de e-mail válido.';
     } elseif (mb_strlen($senha) < 6) {
         $erro = 'A senha deve conter pelo menos 6 caracteres.';
     } else {
-        // Verifica duplicidade de email ou apelido usando Prepared Statement
-        $stmt = $pdo->prepare('SELECT id, email, apelido FROM usuarios WHERE email = ? OR apelido = ? LIMIT 1');
-        $stmt->execute([$email, $apelido]);
-        $usuarioExistente = $stmt->fetch();
+        // Verifica previamente se e-mail ou apelido já pertencem a outro jogador
+        $stmtBusca = $pdo->prepare(
+            'SELECT email, apelido
+             FROM usuarios
+             WHERE email = :email OR apelido = :apelido
+             LIMIT 1'
+        );
+        $stmtBusca->execute([
+            ':email'   => $email,
+            ':apelido' => $apelido,
+        ]);
+        $usuarioExistente = $stmtBusca->fetch();
 
-        if ($usuarioExistente) {
-            if (strcasecmp($usuarioExistente['email'], $email) === 0) {
-                $erro = 'O e-mail informado já está cadastrado.';
-            } else {
-                $erro = 'O apelido informado já está em uso.';
-            }
+        if ($usuarioExistente !== false) {
+            $erro = strcasecmp($usuarioExistente['email'], $email) === 0
+                ? 'O e-mail informado já está cadastrado.'
+                : 'O apelido informado já está em uso.';
         } else {
-            // Salva novo usuário com password_hash()
             $hashSenha = password_hash($senha, PASSWORD_DEFAULT);
-            $stmtInsert = $pdo->prepare('INSERT INTO usuarios (nome, apelido, email, senha, perfil) VALUES (?, ?, ?, ?, "jogador")');
-            $stmtInsert->execute([$nome, $apelido, $email, $hashSenha]);
 
-            // Login automático após cadastro
-            session_regenerate_id(true);
-            $_SESSION['usuario_id'] = (int)$pdo->lastInsertId();
-            $_SESSION['apelido']    = $apelido;
-            $_SESSION['perfil']     = 'jogador';
+            try {
+                // Insere utilizando placeholders nomeados para todos os valores (incluindo perfil)
+                $stmtInsert = $pdo->prepare(
+                    'INSERT INTO usuarios (nome, apelido, email, senha, perfil)
+                     VALUES (:nome, :apelido, :email, :senha, :perfil)'
+                );
+                $stmtInsert->execute([
+                    ':nome'    => $nome,
+                    ':apelido' => $apelido,
+                    ':email'   => $email,
+                    ':senha'   => $hashSenha,
+                    ':perfil'  => 'jogador',
+                ]);
 
-            header('Location: index.php');
-            exit;
+                // Login automático com regeneração do ID de sessão contra Session Fixation
+                session_regenerate_id(true);
+                $_SESSION['usuario_id'] = (int) $pdo->lastInsertId();
+                $_SESSION['apelido']    = $apelido;
+                $_SESSION['perfil']     = 'jogador';
+
+                header('Location: index.php');
+                exit;
+            } catch (PDOException $e) {
+                // Trata violação de chave única (ex.: requisições simultâneas) sem expor erro SQL
+                if ($e->getCode() === '23000') {
+                    $erro = 'O e-mail ou apelido informado já está em uso.';
+                } else {
+                    error_log('Erro ao cadastrar usuário: ' . $e->getMessage());
+                    $erro = 'Não foi possível concluir o cadastro. Tente novamente.';
+                }
+            }
         }
     }
 }
