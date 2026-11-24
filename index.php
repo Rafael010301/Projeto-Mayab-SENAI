@@ -8,15 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/index.css">
+  <link rel="stylesheet" href="assets/css/home.css">
 </head>
 <body>
   <a class="skip" href="#sobre">Ir para o conteúdo</a>
-
   <!-- SEÇÃO 01 · Hero -->
   <header class="hero" id="inicio">
     <div class="hero__inner">
-      <img class="hero__logo" src="" alt="MAYAB: O Templo Perdido, com a cabeça dourada de Kukulcán" width="1024" height="290">
+      <img class="hero__logo" src="assets/img/logo.png" alt="MAYAB: O Templo Perdido, com a cabeça dourada de Kukulcán" width="1024" height="290">
       <button class="btn btn--glow" type="button" id="btn-start">Clique para começar</button>
     </div>
   </header>
@@ -53,60 +52,6 @@
             <button class="btn" type="button" id="btn-explore">Explorar o Templo</button>
           </section>
         </div>
-      </div>
-    </section>
-
-    <!-- SEÇÃO 03 · Acesso -->
-    <section class="access" id="acesso" aria-labelledby="t-acesso">
-      <div class="panel reveal">
-        <h2 id="t-acesso">Acesso ao templo</h2>
-
-        <div class="switch" role="tablist" aria-label="Tipo de acesso">
-          <button class="switch__btn" role="tab" id="sw-login" aria-selected="true" aria-controls="form-login" data-mode="login" type="button">Entrar</button>
-          <button class="switch__btn" role="tab" id="sw-signup" aria-selected="false" aria-controls="form-signup" data-mode="signup" tabindex="-1" type="button">Criar conta</button>
-        </div>
-
-        <!-- Troque action pelo endpoint PHP (ex.: api/login.php) -->
-        <form class="form" id="form-login" action="login.php" method="post" role="tabpanel" aria-labelledby="sw-login" novalidate>
-          <div class="field">
-            <label for="login-email">E-mail</label>
-            <input id="login-email" name="email" type="email" autocomplete="email" required>
-            <p class="field__msg" aria-live="polite"></p>
-          </div>
-          <div class="field">
-            <label for="login-senha">Senha</label>
-            <input id="login-senha" name="senha" type="password" autocomplete="current-password" minlength="6" required>
-            <p class="field__msg" aria-live="polite"></p>
-          </div>
-          <button class="btn btn--full" type="submit">Entrar</button>
-        </form>
-
-        <!-- Troque action pelo endpoint PHP (ex.: api/register.php) -->
-        <form class="form" id="form-signup" action="cadastro.php" method="post" role="tabpanel" aria-labelledby="sw-signup" hidden novalidate>
-          <div class="field">
-            <label for="cad-nome">Nome</label>
-            <input id="cad-nome" name="nome" type="text" autocomplete="name" required>
-            <p class="field__msg" aria-live="polite"></p>
-          </div>
-          <div class="field">
-            <label for="cad-apelido">Apelido</label>
-            <input id="cad-apelido" name="apelido" type="text" autocomplete="nickname" required>
-            <p class="field__msg" aria-live="polite"></p>
-          </div>
-          <div class="field">
-            <label for="cad-email">E-mail</label>
-            <input id="cad-email" name="email" type="email" autocomplete="email" required>
-            <p class="field__msg" aria-live="polite"></p>
-          </div>
-          <div class="field">
-            <label for="cad-senha">Senha</label>
-            <input id="cad-senha" name="senha" type="password" autocomplete="new-password" minlength="6" required>
-            <p class="field__msg" aria-live="polite"></p>
-          </div>
-          <button class="btn btn--full" type="submit">Criar conta</button>
-        </form>
-
-        <p class="form-status" id="form-status" role="status"></p>
       </div>
     </section>
   </main>
