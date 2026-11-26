@@ -362,6 +362,11 @@ require_once __DIR__ . '/includes/topo.php';
                 <input type="hidden" name="acao" value="iniciar">
                 <button type="submit" class="btn btn--glow">Iniciar Expedição</button>
             </form>
+
+            <video width="100%" controls poster="assets/img/capa.jpg">
+                <source src="assets/video/intro-mayab.mp4" type="video/mp4">
+            </video>
+
         </div>
     <?php else: ?>
         <?php
@@ -404,6 +409,10 @@ require_once __DIR__ . '/includes/topo.php';
                 </div>
             </div>
         <?php endif; ?>
+
+        <section >
+
+        </section>
 
         <article class="card scene-card">
             <?php if ($imagemCena !== null): ?>
