@@ -9,7 +9,7 @@ require_once __DIR__ . '/includes/conexao.php';
 
 // Redireciona se o usuário já possui sessão ativa
 if (!empty($_SESSION['usuario_id'])) {
-    header('Location: index.php');
+    header('Location: jogo.php');
     exit;
 }
 
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['apelido']    = $usuario['apelido'];
             $_SESSION['perfil']     = $usuario['perfil'];
 
-            header('Location: index.php');
+            header('Location: jogo.php');
             exit;
         }
 
@@ -102,20 +102,7 @@ require_once __DIR__ . '/includes/topo.php';
 
             <button type="submit" class="btn btn--full">Entrar</button>
         </form>
-
-        <div class="divider" role="separator"><span>ou</span></div>
-
-        <button type="button" class="btn btn--google btn--full" id="btn-google-auth">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.8-5.5 3.8-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.9 1.5l2.7-2.6C16.9 3.2 14.7 2.2 12 2.2 6.6 2.2 2.2 6.6 2.2 12s4.4 9.8 9.8 9.8c5.6 0 9.4-3.9 9.4-9.5 0-.6-.1-1.1-.2-1.6H12z"/>
-                <path fill="#34A853" d="M3.3 7.3l3.2 2.3C7.4 7.5 9.5 6 12 6c1.9 0 3.1.8 3.9 1.5l2.7-2.6C16.9 3.2 14.7 2.2 12 2.2 8.2 2.2 4.9 4.3 3.3 7.3z"/>
-                <path fill="#FBBC05" d="M12 21.8c2.6 0 4.8-.9 6.4-2.4l-3-2.5c-.8.6-1.9 1-3.4 1-3.9 0-5.2-2.6-5.5-3.9l-3.2 2.5c1.6 3.1 4.9 5.3 8.7 5.3z"/>
-                <path fill="#4285F4" d="M21.4 12.3c0-.6-.1-1.1-.2-1.6H12v3.9h5.5c-.3 1.2-1 2.2-2.1 2.9l3 2.5c1.8-1.6 3-4.1 3-7.7z"/>
-            </svg>
-            Continuar com Google
-        </button>
         <p class="form-status" id="google-auth-status" role="status" aria-live="polite"></p>
-
         <p class="auth-footer">
             Ainda não tem conta? <a href="cadastro.php">Criar conta</a>
         </p>

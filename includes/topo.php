@@ -38,6 +38,11 @@ $ehPaginaAuth  = !empty($paginaAuth);
                 <li>
                     <a href="index.php"<?= $paginaAtual === 'index.php' ? ' aria-current="page"' : '' ?>>Início</a>
                 </li>
+                <?php if ($usuarioLogado): ?>
+                    <li>
+                        <a href="jogo.php"<?= $paginaAtual === 'jogo.php' ? ' aria-current="page"' : '' ?>>Jogar</a>
+                    </li>
+                <?php endif; ?>
                 <li>
                     <a href="ranking.php"<?= $paginaAtual === 'ranking.php' ? ' aria-current="page"' : '' ?>>Ranking</a>
                 </li>
