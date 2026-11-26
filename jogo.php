@@ -106,9 +106,9 @@ if (isset($_SESSION['partida']) && (int) ($_SESSION['partida']['usuario_id'] ?? 
     unset($_SESSION['partida']);
 }
 
-// -------------------------------------------------------------
+
 // PROCESSAMENTO DE AÇÕES VIA POST (PRG + CSRF)
-// -------------------------------------------------------------
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verificar_csrf($_POST['csrf_token'] ?? null)) {
         $_SESSION['jogo_erro'] = 'Sessão do formulário expirada. Tente novamente.';
@@ -262,9 +262,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// -------------------------------------------------------------
+
 // CARREGAMENTO DO ESTADO ATUAL PARA EXIBIÇÃO (GET)
-// -------------------------------------------------------------
+
 $mensagemErro = (string) ($_SESSION['jogo_erro'] ?? '');
 unset($_SESSION['jogo_erro']);
 
@@ -330,6 +330,11 @@ require_once __DIR__ . '/includes/topo.php';
                 <input type="hidden" name="acao" value="iniciar">
                 <button type="submit" class="btn btn--glow">Iniciar Expedição</button>
             </form>
+
+            <video width="100%" controls poster="assets/img/capa.jpg">
+                <source src="assets/video/intro-mayab.mp4" type="video/mp4">
+            </video>
+
         </div>
     <?php else: ?>
         <?php
@@ -372,6 +377,10 @@ require_once __DIR__ . '/includes/topo.php';
                 </div>
             </div>
         <?php endif; ?>
+
+        <section >
+
+        </section>
 
         <article class="card scene-card">
             <?php if ($imagemCena !== null): ?>
