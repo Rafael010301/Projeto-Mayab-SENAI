@@ -1,3 +1,10 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/conexao.php';
+$usuarioLogado = !empty($_SESSION['usuario_id']);
+$destinoPortal = $usuarioLogado ? 'jogo.php' : 'login.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -102,7 +109,10 @@
           <h2 id="t-call">Chamada do jogo</h2>
           <p class="call__quote">O portal está aberto. O passado não vai esperar.</p>
           <p class="call__sub">Prepare sua expedição, faça suas escolhas e teste sua sobrevivência nas ruínas de Mayab.</p>
-          <a href="login.php" class="btn btn--glow" id="btn-explore">Entrar no Portal</a>
+          <div class="call__actions">
+            <a href="<?= h($destinoPortal) ?>" class="btn btn--glow" id="btn-explore"><?= $usuarioLogado ? 'Jogar Agora' : 'Entrar no Portal' ?></a>
+            <a href="ranking.php" class="btn btn--secondary">Ver Ranking</a>
+          </div>
         </div>
       </div>
     </section>

@@ -5,16 +5,13 @@ declare(strict_types=1);
  * Cabeçalho HTML5 compartilhado pelas páginas internas e barra de navegação dinâmica.
  */
 require_once __DIR__ . '/conexao.php';
-<<<<<<< HEAD
 
 $usuarioLogado = !empty($_SESSION['usuario_id']);
 $usuarioAdmin  = function_exists('eh_admin')
     ? eh_admin()
     : ($usuarioLogado && ($_SESSION['perfil'] ?? '') === 'admin');
 $paginaAtual   = basename($_SERVER['SCRIPT_NAME'] ?? '');
-=======
-$ehPaginaAuth = !empty($paginaAuth);
->>>>>>> macedo
+$ehPaginaAuth  = !empty($paginaAuth);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -41,6 +38,11 @@ $ehPaginaAuth = !empty($paginaAuth);
                 <li>
                     <a href="index.php"<?= $paginaAtual === 'index.php' ? ' aria-current="page"' : '' ?>>Início</a>
                 </li>
+                <?php if ($usuarioLogado): ?>
+                    <li>
+                        <a href="jogo.php"<?= $paginaAtual === 'jogo.php' ? ' aria-current="page"' : '' ?>>Jogar</a>
+                    </li>
+                <?php endif; ?>
                 <li>
                     <a href="ranking.php"<?= $paginaAtual === 'ranking.php' ? ' aria-current="page"' : '' ?>>Ranking</a>
                 </li>

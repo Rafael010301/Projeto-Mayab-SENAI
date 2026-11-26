@@ -55,6 +55,8 @@ CREATE TABLE IF NOT EXISTS `partidas` (
   `moedas_final` INT NOT NULL,
   `pontos` INT NOT NULL,
   `jogada_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX `idx_partidas_ranking` (`pontos`, `vida_final`, `moedas_final`, `jogada_em`),
+  INDEX `idx_partidas_usuario_data` (`usuario_id`, `jogada_em`, `id`),
   CONSTRAINT `fk_partidas_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_partidas_cena` FOREIGN KEY (`cena_final_id`) REFERENCES `cenas` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

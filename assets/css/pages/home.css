@@ -248,6 +248,13 @@
   font-size: .95rem;
 }
 
+.call__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .85rem;
+}
+
 /* ==========================================
    RESPONSIVE
 ========================================== */

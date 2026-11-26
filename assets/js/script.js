@@ -63,4 +63,20 @@
       googleStatus.textContent = 'Login com Google disponível em breve. Utilize seu e-mail e senha para acessar.';
     });
   }
+
+  /* ---------- Prevenção visual de duplo clique em formulários do jogo ---------- */
+  $$('.js-single-submit').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      if (form.dataset.submitting === '1') {
+        e.preventDefault();
+        return;
+      }
+      form.dataset.submitting = '1';
+      setTimeout(() => {
+        $$('button[type="submit"]', form).forEach((btn) => {
+          btn.disabled = true;
+        });
+      }, 0);
+    });
+  });
 })();

@@ -142,5 +142,33 @@ if (!function_exists('h')) {
     }
 }
 
+if (!function_exists('csrf_token')) {
+    /**
+     * Gera ou retorna o token CSRF único armazenado na sessão atual.
+     */
+    function csrf_token(): string
+    {
+        if (empty($_SESSION['csrf_token']) || !is_string($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+
+        return $_SESSION['csrf_token'];
+    }
+}
+
+if (!function_exists('verificar_csrf')) {
+    /**
+     * Valida em tempo constante o token CSRF enviado em formulários POST.
+     */
+    function verificar_csrf(?string $token): bool
+    {
+        if ($token === null || $token === '' || empty($_SESSION['csrf_token'])) {
+            return false;
+        }
+
+        return hash_equals((string) $_SESSION['csrf_token'], $token);
+    }
+}
+
 // Mantém $pdo disponível para scripts procedurais que esperam a variável pronta
 $pdo = conectar_bd();

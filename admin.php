@@ -37,6 +37,8 @@ function validar_dados_cena(array $entrada): array
         $erro = 'O título da cena deve ter no máximo 150 caracteres.';
     } elseif ($imagem !== null && mb_strlen($imagem) > 255) {
         $erro = 'O caminho da imagem deve ter no máximo 255 caracteres.';
+    } elseif ($imagem !== null && (str_contains($imagem, '..') || preg_match('/^[a-z][a-z0-9+.-]*:/i', $imagem) === 1)) {
+        $erro = 'Informe um caminho de imagem relativo válido dentro do projeto.';
     } elseif (!array_key_exists($tipo, TIPOS_CENA)) {
         $erro = 'Tipo de cena inválido.';
     }
@@ -198,10 +200,13 @@ $formCena    = null;
 $formEscolha = null;
 
 // -------------------------------------------------------------
-// PROCESSAMENTO DE AÇÕES MUTÁVEIS VIA POST (PADRÃO PRG)
+// PROCESSAMENTO DE AÇÕES MUTÁVEIS VIA POST (PADRÃO PRG + CSRF)
 // -------------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $acao = (string) ($_POST['acao'] ?? '');
+    if (!verificar_csrf($_POST['csrf_token'] ?? null)) {
+        $mensagemErro = 'Sessão do formulário expirada. Recarregue a página e tente novamente.';
+    } else {
+        $acao = (string) ($_POST['acao'] ?? '');
 
     if ($acao === 'cadastrar_cena') {
         $validacao = validar_dados_cena($_POST);
@@ -256,6 +261,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = (int) ($_POST['id'] ?? 0);
         if ($id <= 0) {
             $mensagemErro = 'ID de cena inválido para exclusão.';
+        } elseif ($id === 1) {
+            $mensagemErro = 'A cena inicial (#1) não pode ser excluída.';
         } else {
             $stmt = $pdo->prepare('DELETE FROM cenas WHERE id = :id');
             $stmt->execute([':id' => $id]);
@@ -337,6 +344,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $mensagemErro = 'Ação administrativa desconhecida.';
     }
+    }
 }
 
 // -------------------------------------------------------------
@@ -362,6 +370,7 @@ if ($escolhaEdicao === null && isset($_GET['editar_escolha'])) {
 
 $modoEdicaoCena    = $cenaEdicao !== null && isset($cenaEdicao['id']);
 $modoEdicaoEscolha = $escolhaEdicao !== null && isset($escolhaEdicao['id']);
+$tokenCsrf         = csrf_token();
 
 // -------------------------------------------------------------
 // LISTAGEM DE CENAS E ESCOLHAS (PREPARED STATEMENTS COM COLUNAS EXPLÍCITAS)
@@ -414,6 +423,7 @@ require_once __DIR__ . '/includes/topo.php';
         <h3><?= $modoEdicaoCena ? 'Editar Cena #' . h((int) $cenaEdicao['id']) : 'Cadastrar Nova Cena' ?></h3>
 
         <form action="admin.php" method="POST" class="form-admin">
+            <input type="hidden" name="csrf_token" value="<?= h($tokenCsrf) ?>">
             <input type="hidden" name="acao" value="<?= $modoEdicaoCena ? 'editar_cena' : 'cadastrar_cena' ?>">
             <?php if ($modoEdicaoCena): ?>
                 <input type="hidden" name="id" value="<?= (int) $cenaEdicao['id'] ?>">
@@ -480,6 +490,7 @@ require_once __DIR__ . '/includes/topo.php';
                                 <td>
                                     <a href="admin.php?editar_cena=<?= (int) $cena['id'] ?>" class="btn-acao">Editar</a>
                                     <form action="admin.php" method="POST" class="form-inline" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta cena? Todas as escolhas associadas serão excluídas.');">
+                                        <input type="hidden" name="csrf_token" value="<?= h($tokenCsrf) ?>">
                                         <input type="hidden" name="acao" value="excluir_cena">
                                         <input type="hidden" name="id" value="<?= (int) $cena['id'] ?>">
                                         <button type="submit" class="btn-acao btn-excluir">Excluir</button>
@@ -500,6 +511,7 @@ require_once __DIR__ . '/includes/topo.php';
         <h3><?= $modoEdicaoEscolha ? 'Editar Escolha #' . h((int) $escolhaEdicao['id']) : 'Cadastrar Nova Escolha' ?></h3>
 
         <form action="admin.php" method="POST" class="form-admin">
+            <input type="hidden" name="csrf_token" value="<?= h($tokenCsrf) ?>">
             <input type="hidden" name="acao" value="<?= $modoEdicaoEscolha ? 'editar_escolha' : 'cadastrar_escolha' ?>">
             <?php if ($modoEdicaoEscolha): ?>
                 <input type="hidden" name="id" value="<?= (int) $escolhaEdicao['id'] ?>">
@@ -575,6 +587,7 @@ require_once __DIR__ . '/includes/topo.php';
                                 <td>
                                     <a href="admin.php?editar_escolha=<?= (int) $escolha['id'] ?>" class="btn-acao">Editar</a>
                                     <form action="admin.php" method="POST" class="form-inline" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta escolha?');">
+                                        <input type="hidden" name="csrf_token" value="<?= h($tokenCsrf) ?>">
                                         <input type="hidden" name="acao" value="excluir_escolha">
                                         <input type="hidden" name="id" value="<?= (int) $escolha['id'] ?>">
                                         <button type="submit" class="btn-acao btn-excluir">Excluir</button>
