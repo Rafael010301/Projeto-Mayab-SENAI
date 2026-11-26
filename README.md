@@ -356,12 +356,12 @@ A interface combina tons de pedra vulcânica, dourado maia, verde selva e turque
 
 | Integrante | Turma | Frente de Atuação |
 | :--- | :--- | :--- |
-| **Rafael de Oliveira Pereira** | DS A | Arquitetura do banco (`banco.sql`), autenticação, segurança e painel administrativo |
-| **Integrante 2** | DS A | Requisitos, modelagem de dados e testes de acesso/administração |
+| **Rafael de Oliveira Pereira** | DS B| Arquitetura do banco (`banco.sql`), autenticação, segurança e painel administrativo |
+| **Isabela Paiva** | DS a | Requisitos, modelagem de dados e testes de acesso/administração |
 | **Macedo** | DS B | Motor do jogo (`jogo.php`), cálculo de pontuação, ranking e integração visual |
-| **Integrante 4** | DS B | Estilização CSS, responsividade, captura de telas e testes funcionais |
-| **Integrante 5** | Multimídia | Identidade visual, manual de marca, logotipo e ilustrações das cenas |
-| **Integrante 6** | Multimídia | Tipografia, direção de arte, roteiro e edição do vídeo pitch (30s) |
+| **Luana** | DS B | Estilização CSS, responsividade, captura de telas e testes funcionais |
+| **Nathaly Marrote** | Multimídia | Identidade visual, manual de marca, logotipo e ilustrações das cenas |
+| **Andressa** | Multimídia | Tipografia, direção de arte, roteiro e edição do vídeo pitch (30s) |
 
 <div align="center">
   <br/>
