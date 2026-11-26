@@ -5,16 +5,12 @@ declare(strict_types=1);
  * Cabeçalho HTML5 compartilhado pelas páginas internas e barra de navegação dinâmica.
  */
 require_once __DIR__ . '/conexao.php';
-<<<<<<< HEAD
 
 $usuarioLogado = !empty($_SESSION['usuario_id']);
 $usuarioAdmin  = function_exists('eh_admin')
     ? eh_admin()
     : ($usuarioLogado && ($_SESSION['perfil'] ?? '') === 'admin');
 $paginaAtual   = basename($_SERVER['SCRIPT_NAME'] ?? '');
-=======
-$ehPaginaAuth = !empty($paginaAuth);
->>>>>>> macedo
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
