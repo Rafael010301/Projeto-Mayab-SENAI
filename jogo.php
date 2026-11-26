@@ -10,10 +10,11 @@ require_once __DIR__ . '/includes/protege.php';
 
 $pdo = conectar_bd();
 
-const VIDA_INICIAL    = 10;
-const VIDA_MAX        = 20;
-const MOEDAS_INICIAIS = 0;
-const CENA_INICIAL_ID = 1;
+const VIDA_INICIAL      = 10;
+const VIDA_MAX          = 20;
+const MOEDAS_INICIAIS   = 0;
+const CENA_INICIAL_ID   = 1;
+const VIDEO_INTRO_PATH  = 'assets/img/video-mayab-final.mp4';
 
 /**
  * Busca os dados de uma cena pelo ID.
@@ -138,13 +139,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'ultimo_delta' => null,
             'passos'       => 0,
         ];
+        $_SESSION['mostrar_intro_video'] = true;
 
         header('Location: jogo.php');
         exit;
     }
 
     if ($acao === 'reiniciar') {
-        unset($_SESSION['partida']);
+        unset($_SESSION['partida'], $_SESSION['mostrar_intro_video']);
         header('Location: jogo.php');
         exit;
     }
@@ -268,10 +270,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $mensagemErro = (string) ($_SESSION['jogo_erro'] ?? '');
 unset($_SESSION['jogo_erro']);
 
-$partida      = $_SESSION['partida'] ?? null;
-$cenaAtual    = null;
-$escolhas     = [];
-$imagemCena   = null;
+$partida           = $_SESSION['partida'] ?? null;
+$cenaAtual         = null;
+$escolhas          = [];
+$imagemCena        = null;
+$videoIntro        = null;
+$mostrarIntroVideo = false;
+
+$introSolicitada = !empty($_SESSION['mostrar_intro_video']);
+unset($_SESSION['mostrar_intro_video']);
 
 if (is_array($partida)) {
     $cenaAtual = buscar_cena_jogo($pdo, (int) ($partida['cena_id'] ?? 0));
@@ -284,14 +291,39 @@ if (is_array($partida)) {
         if (empty($partida['finalizada'])) {
             $escolhas = buscar_escolhas_cena($pdo, (int) $cenaAtual['id']);
         }
+        if ($introSolicitada && empty($partida['finalizada']) && (int) ($partida['passos'] ?? 0) === 0) {
+            $videoIntro = resolver_imagem_cena(VIDEO_INTRO_PATH);
+            $mostrarIntroVideo = ($videoIntro !== null);
+        }
     }
 }
 
-$tokenCsrf = csrf_token();
-$titulo    = 'Expedição - Mayab';
-$cssPagina = 'assets/css/pages/jogo.css';
+$tokenCsrf       = csrf_token();
+$titulo          = 'Expedição - Mayab';
+$cssPagina       = 'assets/css/pages/jogo.css';
+$introVideoAtiva = $mostrarIntroVideo;
 require_once __DIR__ . '/includes/topo.php';
 ?>
+
+<?php if ($mostrarIntroVideo && $videoIntro !== null): ?>
+    <div class="intro-cinema" id="intro-cinema" role="dialog" aria-modal="true" aria-label="Introdução cinematográfica de Mayab">
+        <video
+            class="intro-cinema__video"
+            id="intro-video"
+            preload="auto"
+            playsinline
+            autoplay
+        >
+            <source src="<?= h($videoIntro) ?>" type="video/mp4">
+        </video>
+        <button
+            class="intro-cinema__skip"
+            id="intro-skip"
+            type="button"
+            aria-label="Pular introdução e ir para o jogo"
+        >Pular vídeo</button>
+    </div>
+<?php endif; ?>
 
 <section class="game-wrap" aria-label="Área do jogo Mayab">
     <?php if ($mensagemErro !== ''): ?>

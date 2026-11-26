@@ -1,4 +1,96 @@
 /* ==========================================
+   CINEMATIC VIDEO INTRO OVERLAY
+========================================== */
+body.intro-video-active {
+  overflow: hidden;
+  background: #000;
+}
+
+body.intro-video-active .site-header,
+body.intro-video-active .site-footer,
+body.intro-video-active .game-wrap {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-cinema {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 9999;
+  background: #000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity .35s ease;
+}
+
+.intro-cinema.is-closing {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-cinema__video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  background: #000;
+}
+
+.intro-cinema__skip {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 10000;
+  background: rgba(11, 14, 12, .72);
+  border: 1px solid rgba(212, 153, 52, .55);
+  color: var(--text, #F4EBD8);
+  font-family: var(--font-body, 'Montserrat', Arial, sans-serif);
+  font-size: .9rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  padding: .6rem 1.4rem;
+  border-radius: var(--radius-pill, 999px);
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, color .2s ease, outline-color .2s ease;
+}
+
+.intro-cinema__skip:hover,
+.intro-cinema__skip:focus-visible {
+  background: rgba(26, 77, 52, .88);
+  border-color: var(--gold-hover, #E8B65B);
+  color: var(--gold-hover, #E8B65B);
+  outline: 2px solid var(--gold, #D49934);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .intro-cinema__skip {
+    bottom: 1.25rem;
+    right: 1rem;
+    font-size: .82rem;
+    padding: .5rem 1rem;
+  }
+}
+
+@media (orientation: portrait) {
+  .intro-cinema__video {
+    object-fit: contain;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-cinema {
+    transition: none;
+  }
+}
+
+/* ==========================================
    GAMEPLAY & RANKING LAYOUT
 ========================================== */
 .game-wrap {
