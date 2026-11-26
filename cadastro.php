@@ -9,7 +9,7 @@ require_once __DIR__ . '/includes/conexao.php';
 
 // Usuário já autenticado não precisa acessar a tela de cadastro
 if (!empty($_SESSION['usuario_id'])) {
-    header('Location: index.php');
+    header('Location: jogo.php');
     exit;
 }
 
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['apelido']    = $apelido;
                 $_SESSION['perfil']     = 'jogador';
 
-                header('Location: index.php');
+                header('Location: jogo.php');
                 exit;
             } catch (PDOException $e) {
                 // Trata violação de chave única (ex.: requisições simultâneas) sem expor erro SQL

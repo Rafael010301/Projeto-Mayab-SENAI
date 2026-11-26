@@ -1,3 +1,10 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/conexao.php';
+$usuarioLogado = !empty($_SESSION['usuario_id']);
+$destinoPortal = $usuarioLogado ? 'jogo.php' : 'login.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -51,13 +58,8 @@
 
         <div class="char-grid">
           <article class="card card--interactive char-card reveal is-selected" data-char="explorador" tabindex="0" aria-pressed="true">
-            <div class="char-card__media char-card__media--explorador" aria-hidden="true">
-              <svg class="char-card__art" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="48" cy="48" r="38" stroke="#3DA66B" stroke-width="2" stroke-dasharray="6 4" opacity=".65"/>
-                <circle cx="48" cy="48" r="28" fill="#102A1D" stroke="#D49934" stroke-width="2.5"/>
-                <path d="M48 24L55 43L72 48L55 53L48 72L41 53L24 48L41 43L48 24Z" fill="#D49934" opacity=".9"/>
-                <circle cx="48" cy="48" r="5" fill="#121212" stroke="#F4EBD8" stroke-width="2"/>
-              </svg>
+            <div class="char-card__media char-card__media--explorador">
+              <img class="char-card__img" src="assets/img/Explorador.jpeg" alt="Explorador: aventureira de campo preparada para travessia na selva" width="2400" height="1792" loading="lazy">
             </div>
             <div class="char-card__body">
               <div class="char-card__top">
@@ -70,13 +72,8 @@
           </article>
 
           <article class="card card--interactive char-card reveal" data-char="estudante" tabindex="0" aria-pressed="false">
-            <div class="char-card__media char-card__media--estudante" aria-hidden="true">
-              <svg class="char-card__art" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="20" y="18" width="56" height="60" rx="8" fill="#102A1D" stroke="#248799" stroke-width="2.5"/>
-                <path d="M32 34H64M32 46H58M32 58H50" stroke="#D49934" stroke-width="3" stroke-linecap="round"/>
-                <rect x="34" y="65" width="28" height="6" rx="3" fill="#3DA66B" opacity=".8"/>
-                <circle cx="66" cy="28" r="7" fill="#D49934"/>
-              </svg>
+            <div class="char-card__media char-card__media--estudante">
+              <img class="char-card__img" src="assets/img/Estudante.jpeg" alt="Estudante: jovem pesquisador com caderno de glifos maias" width="2400" height="1792" loading="lazy">
             </div>
             <div class="char-card__body">
               <div class="char-card__top">
@@ -89,13 +86,8 @@
           </article>
 
           <article class="card card--interactive char-card reveal" data-char="arqueologo" tabindex="0" aria-pressed="false">
-            <div class="char-card__media char-card__media--arqueologo" aria-hidden="true">
-              <svg class="char-card__art" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="48,16 74,34 64,74 32,74 22,34" fill="#102A1D" stroke="#D49934" stroke-width="2.5"/>
-                <circle cx="48" cy="48" r="14" stroke="#E8B65B" stroke-width="2.5"/>
-                <circle cx="48" cy="48" r="6" fill="#3DA66B"/>
-                <path d="M48 24V30M48 66V72M26 48H32M64 48H70" stroke="#D49934" stroke-width="2.5" stroke-linecap="round"/>
-              </svg>
+            <div class="char-card__media char-card__media--arqueologo">
+              <img class="char-card__img" src="assets/img/Arque%C3%B3logo.jpeg" alt="Arqueólogo: líder experiente da expedição segurando uma relíquia" width="2400" height="1792" loading="lazy">
             </div>
             <div class="char-card__body">
               <div class="char-card__top">
@@ -117,7 +109,10 @@
           <h2 id="t-call">Chamada do jogo</h2>
           <p class="call__quote">O portal está aberto. O passado não vai esperar.</p>
           <p class="call__sub">Prepare sua expedição, faça suas escolhas e teste sua sobrevivência nas ruínas de Mayab.</p>
-          <a href="login.php" class="btn btn--glow" id="btn-explore">Entrar no Portal</a>
+          <div class="call__actions">
+            <a href="<?= h($destinoPortal) ?>" class="btn btn--glow" id="btn-explore"><?= $usuarioLogado ? 'Jogar Agora' : 'Entrar no Portal' ?></a>
+            <a href="ranking.php" class="btn btn--secondary">Ver Ranking</a>
+          </div>
         </div>
       </div>
     </section>

@@ -125,44 +125,49 @@
 
 .char-card__media {
   position: relative;
-  height: 170px;
+  width: 100%;
+  aspect-ratio: 4 / 3;
   border-radius: var(--radius-md);
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   border: 1px solid rgba(212, 153, 52, .25);
-  background:
-    radial-gradient(circle at 50% 35%, rgba(36, 135, 153, .30), transparent 65%),
-    linear-gradient(160deg, rgba(11, 14, 12, .92), rgba(26, 77, 52, .65));
+  background: #070908;
+}
+
+.char-card__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 22px rgba(7, 9, 8, .75);
 }
 
 .char-card__media--explorador {
-  background:
-    radial-gradient(circle at 50% 35%, rgba(61, 166, 107, .32), transparent 65%),
-    linear-gradient(160deg, rgba(11, 14, 12, .92), rgba(26, 77, 52, .65));
+  border-color: rgba(61, 166, 107, .35);
 }
 
 .char-card__media--estudante {
-  background:
-    radial-gradient(circle at 50% 35%, rgba(36, 135, 153, .35), transparent 65%),
-    linear-gradient(160deg, rgba(11, 14, 12, .92), rgba(16, 42, 29, .75));
+  border-color: rgba(36, 135, 153, .4);
 }
 
 .char-card__media--arqueologo {
-  background:
-    radial-gradient(circle at 50% 35%, rgba(212, 153, 52, .28), transparent 65%),
-    linear-gradient(160deg, rgba(11, 14, 12, .92), rgba(139, 98, 27, .38));
+  border-color: rgba(212, 153, 52, .38);
 }
 
-.char-card__art {
-  width: 96px;
-  height: 96px;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, .55));
-  transition: transform .3s ease;
+.char-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  transform-origin: center 35%;
+  display: block;
+  transition: transform .35s ease;
 }
 
-.char-card:hover .char-card__art {
-  transform: scale(1.06);
+.char-card:hover .char-card__img {
+  transform: scale(1.03);
 }
 
 .char-card__body {
@@ -243,6 +248,13 @@
   font-size: .95rem;
 }
 
+.call__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .85rem;
+}
+
 /* ==========================================
    RESPONSIVE
 ========================================== */
@@ -268,9 +280,5 @@
 
   .char-grid {
     grid-template-columns: 1fr;
-  }
-
-  .char-card__media {
-    height: 150px;
   }
 }

@@ -11,6 +11,10 @@ $usuarioAdmin  = function_exists('eh_admin')
     ? eh_admin()
     : ($usuarioLogado && ($_SESSION['perfil'] ?? '') === 'admin');
 $paginaAtual   = basename($_SERVER['SCRIPT_NAME'] ?? '');
+<<<<<<< HEAD
+=======
+$ehPaginaAuth  = !empty($paginaAuth);
+>>>>>>> 7f93ab162a87d44368f3b894c9e3420705e88b07
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -37,6 +41,11 @@ $paginaAtual   = basename($_SERVER['SCRIPT_NAME'] ?? '');
                 <li>
                     <a href="index.php"<?= $paginaAtual === 'index.php' ? ' aria-current="page"' : '' ?>>Início</a>
                 </li>
+                <?php if ($usuarioLogado): ?>
+                    <li>
+                        <a href="jogo.php"<?= $paginaAtual === 'jogo.php' ? ' aria-current="page"' : '' ?>>Jogar</a>
+                    </li>
+                <?php endif; ?>
                 <li>
                     <a href="ranking.php"<?= $paginaAtual === 'ranking.php' ? ' aria-current="page"' : '' ?>>Ranking</a>
                 </li>
