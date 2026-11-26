@@ -11,6 +11,7 @@ $usuarioAdmin  = function_exists('eh_admin')
     ? eh_admin()
     : ($usuarioLogado && ($_SESSION['perfil'] ?? '') === 'admin');
 $paginaAtual   = basename($_SERVER['SCRIPT_NAME'] ?? '');
+$ehPaginaAuth  = !empty($paginaAuth);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -23,7 +24,7 @@ $paginaAtual   = basename($_SERVER['SCRIPT_NAME'] ?? '');
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/base/global.css">
     <link rel="stylesheet" href="assets/css/components/components.css">
-    <?php if (!empty($cssPagina)): ?>
+    <?php if (!empty($cssPagina) && is_string($cssPagina)): ?>
         <link rel="stylesheet" href="<?= h($cssPagina) ?>">
     <?php endif; ?>
 </head>
