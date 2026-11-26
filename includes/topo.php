@@ -10,8 +10,18 @@ $usuarioLogado = !empty($_SESSION['usuario_id']);
 $usuarioAdmin  = function_exists('eh_admin')
     ? eh_admin()
     : ($usuarioLogado && ($_SESSION['perfil'] ?? '') === 'admin');
-$paginaAtual   = basename($_SERVER['SCRIPT_NAME'] ?? '');
-$ehPaginaAuth  = !empty($paginaAuth);
+$paginaAtual     = basename($_SERVER['SCRIPT_NAME'] ?? '');
+$ehPaginaAuth    = !empty($paginaAuth);
+$introVideoAtiva = !empty($introVideoAtiva);
+
+$classesBody = [];
+if ($ehPaginaAuth) {
+    $classesBody[] = 'page-auth';
+}
+if ($introVideoAtiva) {
+    $classesBody[] = 'intro-video-active';
+}
+$attrClasseBody = !empty($classesBody) ? ' class="' . h(implode(' ', $classesBody)) . '"' : '';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -27,8 +37,19 @@ $ehPaginaAuth  = !empty($paginaAuth);
     <?php if (!empty($cssPagina)): ?>
         <link rel="stylesheet" href="<?= h($cssPagina) ?>">
     <?php endif; ?>
+    <?php if ($introVideoAtiva): ?>
+        <noscript>
+            <style>
+                .intro-cinema { display: none !important; }
+                body.intro-video-active { overflow: auto !important; }
+                body.intro-video-active .site-header,
+                body.intro-video-active .site-footer,
+                body.intro-video-active .game-wrap { visibility: visible !important; pointer-events: auto !important; }
+            </style>
+        </noscript>
+    <?php endif; ?>
 </head>
-<body<?= $ehPaginaAuth ? ' class="page-auth"' : '' ?>>
+<body<?= $attrClasseBody ?>>
 <?php if (!$ehPaginaAuth): ?>
 <header class="site-header">
     <div class="nav-container">

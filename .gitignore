@@ -15,7 +15,9 @@ desktop.ini
 *.bak
 *.swp
 *~
-
+assets/img
+assets/js
+assets/page
 # Arquivos temporários de teste / geração de hash (mencionado no guia do SENAI)
 gera_hash.php
 teste.php
