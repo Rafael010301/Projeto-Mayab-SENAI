@@ -45,7 +45,7 @@ $destinoPortal = $usuarioLogado ? 'jogo.php' : 'login.php';
             <p>Decifre os glifos, sobreviva ao templo e descubra o que Kukulcán guarda.</p>
           </div>
         </article>
-      </div>
+      </div>  
     </section>
 
     <!-- SEÇÃO 03 · Personagens -->

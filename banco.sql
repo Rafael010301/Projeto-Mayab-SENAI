@@ -71,8 +71,11 @@ INSERT INTO `usuarios` (`id`, `nome`, `apelido`, `email`, `senha`, `perfil`) VAL
 (2, 'Jogador Explorador', 'jogador', 'jogador@jogo.com', '$2y$10$BRnKXFjbGpFUk42LZ2L88OtdjnD4c3Ilv0wMJ90CPL/HIsaOKE2xO', 'jogador')
 ON DUPLICATE KEY UPDATE `email` = VALUES(`email`);
 
+SET NAMES utf8mb4;
+USE `mayab`;
+
 -- --------------------------------------------------------
--- Inserção das 12 cenas iniciais do jogo
+-- Atualiza as 12 cenas iniciais do jogo
 -- --------------------------------------------------------
 INSERT INTO `cenas` (`id`, `titulo`, `texto`, `imagem`, `tipo`) VALUES
 (1, 'O Despertar na Selva de Mayab', 'Você desperta entre ruínas maias envoltas por névoa e cipós. O ar é denso com o aroma de orquídeas e terra molhada. À sua frente ergue-se uma pirâmide milenar, enquanto uma trilha estreita avança pela mata e estelas entalhadas sussurram segredos esquecidos.', NULL, 'normal'),
@@ -90,47 +93,30 @@ INSERT INTO `cenas` (`id`, `titulo`, `texto`, `imagem`, `tipo`) VALUES
 ON DUPLICATE KEY UPDATE `titulo` = VALUES(`titulo`), `texto` = VALUES(`texto`), `imagem` = VALUES(`imagem`), `tipo` = VALUES(`tipo`);
 
 -- --------------------------------------------------------
--- Inserção das escolhas para cada cena normal
+-- Atualiza as 24 escolhas do jogo
 -- --------------------------------------------------------
 INSERT INTO `escolhas` (`id`, `cena_id`, `texto`, `destino_id`, `efeito_vida`, `efeito_moedas`) VALUES
--- Escolhas da Cena 1
 (1, 1, 'Subir as escadarias íngremes da pirâmide ancestral', 2, -1, 5),
 (2, 1, 'Seguir cautelosamente pela trilha fechada da selva', 3, 0, 2),
 (3, 1, 'Examinar os glifos e estelas de pedra ao lado da entrada', 4, 1, 3),
-
--- Escolhas da Cena 2
 (4, 2, 'Adentrar o túnel escuro rumo às entranhas da pirâmide', 5, -2, 10),
 (5, 2, 'Decifrar os relevos do altar solar em busca de orientação', 4, 2, 4),
 (6, 2, 'Descer pelo lado oposto em direção ao reflexo de um cenote', 6, -1, 0),
-
--- Escolhas da Cena 3
 (7, 3, 'Correr velozmente em direção à clareira com água cristalina', 6, -2, 1),
 (8, 3, 'Subir em uma grande árvore sumaúma e analisar as ruínas', 4, -1, 5),
 (9, 3, 'Acender uma tocha com folhas secas para afugentar as feras', 7, 0, -2),
-
--- Escolhas da Cena 4
 (10, 4, 'Consultar o mapa astronômico no pedestal de pedra', 7, 1, 8),
 (11, 4, 'Descer pela passagem subterrânea lacrada', 5, -1, 3),
-
--- Escolhas da Cena 5
 (12, 5, 'Pisar com cautela apenas nas lajes com o símbolo sagrado', 8, 0, 6),
 (13, 5, 'Correr pelo corredor tentando desviar das flechas antigas', 9, -4, 10),
-
--- Escolhas da Cena 6
 (14, 6, 'Mergulhar nas águas profundas para resgatar oferendas de ouro', 9, -2, 15),
 (15, 6, 'Seguir pelo canal de pedras que margeia o cenote até o campo cerimonial', 8, 1, 2),
 (16, 6, 'Realizar uma oferenda respeitosa jogando moedas para os deuses da água', 7, 3, -5),
-
--- Escolhas da Cena 7
 (17, 7, 'Alinhar as lentes de cristal celestial com o sol nascente', 8, 2, 5),
 (18, 7, 'Pegar o amuleto de jade estelar e seguir para o salão interno', 9, 0, 8),
-
--- Escolhas da Cena 8
 (19, 8, 'Arremessar a bola de látex ritual pelo aro sagrado de pedra', 10, 2, 20),
 (20, 8, 'Ajoelhar-se e estudar os ensinamentos dos mestres astrônomos', 11, 3, 15),
 (21, 8, 'Arrombar as grades de madeira apodrecida abaixo do campo', 12, -5, 0),
-
--- Escolhas da Cena 9
 (22, 9, 'Seguir a tênue luz de tochas que indica a câmara de sabedoria', 11, -1, 10),
 (23, 9, 'Lançar-se através do portal dourado que resplandece ao longe', 10, -3, 25),
 (24, 9, 'Tocar o sarcófago proibido de obsidiana no centro da sala', 12, -8, 0)
