@@ -53,7 +53,7 @@ $ehPaginaAuth  = !empty($paginaAuth);
                 <?php endif; ?>
                 <?php if ($usuarioLogado): ?>
                     <li class="nav-user">Jogador: <strong><?= h($_SESSION['apelido'] ?? '') ?></strong></li>
-                    <li><a href="logout.php">Sair</a></li>
+                    <li><a href="logout.php" onclick="return confirm('Tem deseja que quer sair ?');">Sair</a></li>
                 <?php else: ?>
                     <li>
                         <a href="login.php"<?= $paginaAtual === 'login.php' ? ' aria-current="page"' : '' ?>>Entrar</a>
